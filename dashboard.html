@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — MedSave AI</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="bg-canvas" data-icons="stethoscope,pill,cross"></div>
+<div class="guardian-scene"></div>
+
+<nav class="navbar" style="position:relative; z-index:5;">
+  <a href="index.html" class="brand">
+    <div class="logo-mark"></div>
+    <span class="brand-name">MedSave AI</span>
+  </a>
+  <div class="nav-actions">
+    <a href="live-reading.html" class="btn btn-live btn-sm"><span class="live-dot"></span> Live Reading</a>
+    <span class="btn btn-ghost btn-sm" style="pointer-events:none;">Hi, Guest 👋</span>
+    <a href="index.html" class="btn btn-primary btn-sm" onclick="localStorage.removeItem('medsave_session')">Log out</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="dash-hero">
+  <h1>Welcome to <span class="accent">MedSave AI</span></h1>
+  <p>MedSave AI is an AI-powered chatbot built to spread public health awareness — offering disease information, preventive measures, and healthy lifestyle guidance whenever you need it.</p>
+</header>
+
+<!-- Disease Awareness -->
+<section id="awareness">
+  <div class="section-head">
+    <span class="eyebrow">Disease Awareness</span>
+    <h2>Know it, spot it, prevent it</h2>
+    <p>Eight essentials every household should understand about staying well.</p>
+  </div>
+  <div class="grid grid-4" id="awarenessGrid"></div>
+</section>
+
+<!-- Health Tips -->
+<section id="tips">
+  <div class="section-head">
+    <span class="eyebrow">Daily Reminder</span>
+    <h2>Health tip of the moment</h2>
+  </div>
+  <div class="card tips-card glass" style="max-width:720px; margin:0 auto;">
+    <div class="tips-track">
+      <div class="icon-wrap" id="tipIcon"></div>
+      <p id="tipText" style="opacity:1;"></p>
+    </div>
+    <div class="tips-dots" id="tipDots"></div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="section-head">
+    <span class="eyebrow">Why MedSave AI</span>
+    <h2>Built for clarity, care, and speed</h2>
+  </div>
+  <div class="grid grid-3" id="featuresGrid"></div>
+</section>
+
+<!-- Live Reading promo -->
+<section id="live-promo">
+  <div class="card glass" style="max-width:980px; margin:0 auto; padding:40px clamp(22px,4vw,48px); display:flex; align-items:center; gap:32px; flex-wrap:wrap;">
+    <div style="flex:2; min-width:260px;">
+      <span class="live-badge"><span class="d"></span> New · Physical AI</span>
+      <h2 style="font-size:clamp(1.3rem,2.4vw,1.7rem); margin-bottom:10px;">Connect real devices for live vitals awareness</h2>
+      <p>Pair a Bluetooth heart-rate or blood-pressure monitor, or turn your laptop's microphone into a digital stethoscope — then chat with MedSave AI about what your live readings mean.</p>
+    </div>
+    <a href="live-reading.html" class="btn btn-live" style="flex:none;"><span class="live-dot"></span> Open Live Reading</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand">
+        <div class="logo-mark"></div>
+        <span class="brand-name">MedSave AI</span>
+      </div>
+      <p>An AI-driven public health chatbot spreading disease awareness, prevention tips, and healthy-living guidance for everyone.</p>
+    </div>
+    <div class="footer-meta">
+      <p><strong>Project:</strong> AI-Driven Public Health Chatbot for Disease Awareness</p>
+      <p style="margin-top:8px;"><strong>Created by:</strong> Teli Uday Karthik</p>
+      <p>B.Tech Student</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 MedSave AI. All Rights Reserved.</div>
+</footer>
+
+<!-- Chatbot -->
+<button class="chat-launcher" id="chatLauncher" aria-label="Open MedSave AI chat" aria-expanded="false">
+  <span class="pulse"></span>
+  <span id="chatLauncherIcon"></span>
+</button>
+
+<div class="chat-window glass" id="chatWindow">
+  <div class="chat-head">
+    <div class="avatar-wrap bot-avatar" id="chatHeadAvatar"></div>
+    <div class="who">
+      <div class="name">MedSave AI Assistant</div>
+      <div class="status" id="chatStatus"><span class="d"></span><span class="label">Connecting…</span></div>
+    </div>
+    <button class="expand-btn tts-btn" id="chatTtsBtn" aria-label="Toggle voice replies" aria-pressed="false"></button>
+    <button class="expand-btn" id="chatExpand" aria-label="Expand chat"></button>
+    <button class="close-btn" id="chatClose" aria-label="Close chat"></button>
+  </div>
+
+  <div class="chat-body" id="chatBody"></div>
+
+  <div class="quick-suggestions">
+    <button class="chip">Symptoms</button>
+    <button class="chip">Disease Awareness</button>
+    <button class="chip">Prevention Tips</button>
+    <button class="chip">Healthy Lifestyle</button>
+    <button class="chip">Vaccination Information</button>
+    <button class="chip">Emergency Advice</button>
+  </div>
+
+  <div class="chat-input-row">
+    <input type="text" id="chatInput" placeholder="Ask about symptoms, prevention, wellness…">
+    <button class="mic-btn" id="chatMic" type="button" aria-label="Speak your question" aria-pressed="false"></button>
+    <button id="chatSend" aria-label="Send message"></button>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/background.js"></script>
+<script src="js/tips.js"></script>
+<script src="js/chatbot.js"></script>
+<script>
+  document.querySelectorAll('.logo-mark').forEach(el => el.innerHTML = msIcon('logo'));
+  document.getElementById('chatLauncherIcon').innerHTML = msIcon('chat');
+  document.getElementById('chatClose').innerHTML = msIcon('close');
+  document.getElementById('chatExpand').innerHTML = msIcon('expand');
+  document.getElementById('chatSend').innerHTML = msIcon('send');
+  document.getElementById('chatHeadAvatar').innerHTML = msIcon('bot');
+  document.getElementById('tipIcon').innerHTML = msIcon('spark');
+
+  // Disease awareness cards
+  const awareness = [
+    {icon:'stethoscope', title:'Common Diseases', text:'Learn the basics of flu, dengue, diabetes, and other widespread conditions.', tags:['Flu','Dengue','Diabetes']},
+    {icon:'eye', title:'Symptoms', text:'Recognize early warning signs so you can act before conditions worsen.', tags:['Fever','Fatigue','Cough']},
+    {icon:'shield', title:'Prevention Methods', text:'Simple daily habits that significantly cut your risk of common illnesses.', tags:['Hygiene','Distance','Masks']},
+    {icon:'droplet', title:'Hygiene Practices', text:'Handwashing, sanitation, and clean surroundings remain your first defense.', tags:['Handwash','Sanitize']},
+    {icon:'syringe', title:'Vaccination Awareness', text:'Stay current with recommended immunizations for you and your family.', tags:['Routine','Seasonal']},
+    {icon:'apple', title:'Healthy Diet', text:'Balanced nutrition strengthens immunity and long-term wellbeing.', tags:['Fruits','Whole Grains']},
+    {icon:'run', title:'Exercise Benefits', text:'Regular movement improves heart health, mood, and energy levels.', tags:['Cardio','Strength']},
+    {icon:'brain', title:'Mental Health Awareness', text:'Emotional wellbeing is core health — rest, connect, and seek support.', tags:['Rest','Support']},
+  ];
+  const awarenessGrid = document.getElementById('awarenessGrid');
+  awareness.forEach((item,i)=>{
+    const el = document.createElement('div');
+    el.className = 'card info-card';
+    el.style.animation = `fade-up .6s ${i*0.05}s both`;
+    el.innerHTML = `<div class="icon-wrap">${msIcon(item.icon)}</div>
+      <h3>${item.title}</h3><p>${item.text}</p>
+      <div class="tags">${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
+    awarenessGrid.appendChild(el);
+  });
+
+  // Features
+  const features = [
+    {icon:'brain', title:'AI Disease Awareness', text:'Instant, digestible explanations of conditions and risk factors.'},
+    {icon:'chat', title:'24/7 AI Chat Assistant', text:'Ask health questions anytime — no waiting rooms required.'},
+    {icon:'shield', title:'Preventive Healthcare Tips', text:'Actionable daily habits that reduce your risk of illness.'},
+    {icon:'book', title:'Public Health Education', text:'Clear, reliable information grounded in accepted health guidance.'},
+    {icon:'spark', title:'User-Friendly Interface', text:'A calm, uncluttered experience designed around your needs.'},
+    {icon:'bolt', title:'Fast AI Responses', text:'Get thoughtful answers in seconds, not minutes.'},
+  ];
+  const featuresGrid = document.getElementById('featuresGrid');
+  features.forEach((f,i)=>{
+    const el = document.createElement('div');
+    el.className = 'card feature-row';
+    el.style.animation = `fade-up .6s ${i*0.05}s both`;
+    el.innerHTML = `<div class="icon-wrap">${msIcon(f.icon)}</div>
+      <div><h3>${f.title}</h3><p>${f.text}</p></div>`;
+    featuresGrid.appendChild(el);
+  });
+
+  // Welcome message in chat
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const body = document.getElementById('chatBody');
+    msAppendMessage(body, 'bot', "Hi! I'm your MedSave AI assistant 👋 Ask me about symptoms, prevention, vaccination, or healthy living — or tap a quick suggestion below.");
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log In — MedSave AI</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="bg-canvas" data-icons="cross,pill,heart,shield"></div>
+
+<div class="scene">
+  <nav class="navbar">
+    <a href="index.html" class="brand">
+      <div class="logo-mark"></div>
+      <span class="brand-name">MedSave AI</span>
+    </a>
+    <div class="nav-actions">
+      <a href="signup.html" class="btn btn-ghost btn-sm">Sign up</a>
+    </div>
+  </nav>
+
+  <main class="auth-wrap">
+    <div class="auth-card glass">
+      <div class="auth-head">
+        <div class="logo-mark"></div>
+        <h2>Welcome back</h2>
+        <p>Log in to continue your health journey with MedSave AI.</p>
+      </div>
+
+      <div class="form-alert" id="formAlert"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+          <div class="hint" id="loginEmailHint"></div>
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
+          <button type="button" class="field-toggle" onclick="togglePassword('loginPassword', this)">Show</button>
+          <div class="hint" id="loginPasswordHint"></div>
+        </div>
+
+        <div class="auth-meta">
+          <label style="display:flex;align-items:center;gap:6px;color:var(--ink-soft);"><input type="checkbox" style="accent-color:var(--gold-500);"> Remember me</label>
+          <a href="#" onclick="alert('A password reset link would be sent to your email.'); return false;">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </form>
+
+      <p class="auth-switch">Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </div>
+  </main>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/background.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  document.querySelectorAll('.logo-mark').forEach(el => el.innerHTML = msIcon('logo'));
+</script>
+</body>
+</html>

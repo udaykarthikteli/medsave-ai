@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Reading — MedSave AI</title>
+<meta name="description" content="Connect a real Bluetooth heart-rate or blood-pressure monitor, or a microphone-based digital stethoscope, and chat live with MedSave AI about your readings.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="bg-canvas" data-icons="heart,activity,stethoscope"></div>
+<div class="guardian-scene"></div>
+
+<nav class="navbar" style="position:relative; z-index:5;">
+  <a href="index.html" class="brand">
+    <div class="logo-mark"></div>
+    <span class="brand-name">MedSave AI</span>
+  </a>
+  <div class="nav-actions">
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+    <a href="index.html" class="btn btn-primary btn-sm" onclick="localStorage.removeItem('medsave_session')">Log out</a>
+  </div>
+</nav>
+
+<header class="live-hero">
+  <span class="live-badge"><span class="d"></span> Physical AI · Real device bridge</span>
+  <h1>Live Reading</h1>
+  <p>Connect real physiological devices straight from your browser — a Bluetooth heart-rate strap, a Bluetooth blood-pressure cuff, or an electronic stethoscope through your microphone input — and get live, context-aware awareness from MedSave AI.</p>
+</header>
+
+<section id="disclaimer" style="padding-top:0;">
+  <div class="disclaimer-banner">
+    <span id="disclaimerIcon"></span>
+    <div>
+      <strong>Not a medical device.</strong> Readings shown here come from consumer/BLE sensors and an experimental
+      microphone-based acoustic estimate. They're for general awareness and learning only — not a diagnosis,
+      not a certified medical measurement. For anything urgent, contact a licensed clinician or your local
+      emergency number.
+    </div>
+  </div>
+</section>
+
+<!-- Devices -->
+<section id="devices">
+  <div class="section-head">
+    <span class="eyebrow">Connect a Device</span>
+    <h2>Bring real hardware into the conversation</h2>
+    <p>Uses the standard Web Bluetooth and Web Audio browser APIs — no app install required. Works best in Chrome or Edge on desktop / Android.</p>
+  </div>
+
+  <div class="device-grid">
+
+    <!-- Heart rate monitor -->
+    <div class="card device-card">
+      <div class="device-card-head">
+        <div class="icon-wrap" id="hrIcon"></div>
+        <div>
+          <h3>Bluetooth Heart Rate Monitor</h3>
+          <p>Any BLE device broadcasting the standard Heart Rate Service (chest straps, smartwatches, rings).</p>
+        </div>
+      </div>
+      <span class="status-pill" id="hrStatusPill"><span class="d"></span><span class="lbl">Not connected</span></span>
+      <div class="reading-row">
+        <div class="reading-box">
+          <div class="val"><span id="hrValue">--</span><span class="unit">bpm</span></div>
+          <div class="lbl">Heart Rate</div>
+        </div>
+      </div>
+      <div class="device-actions">
+        <button class="btn btn-primary btn-sm" id="hrConnectBtn">Connect Device</button>
+      </div>
+    </div>
+
+    <!-- Blood pressure monitor -->
+    <div class="card device-card">
+      <div class="device-card-head">
+        <div class="icon-wrap" id="bpIcon"></div>
+        <div>
+          <h3>Bluetooth Blood Pressure Cuff</h3>
+          <p>Any BLE cuff broadcasting the standard Blood Pressure Service — take a reading on the cuff to sync it here.</p>
+        </div>
+      </div>
+      <span class="status-pill" id="bpStatusPill"><span class="d"></span><span class="lbl">Not connected</span></span>
+      <div class="reading-row">
+        <div class="reading-box">
+          <div class="val"><span id="bpSystolic">--</span><span class="unit">/</span><span id="bpDiastolic">--</span></div>
+          <div class="lbl">Systolic / Diastolic</div>
+        </div>
+        <div class="reading-box">
+          <div class="val"><span id="bpPulseVal">--</span><span class="unit">bpm</span></div>
+          <div class="lbl">Pulse</div>
+        </div>
+      </div>
+      <div class="device-actions">
+        <button class="btn btn-primary btn-sm" id="bpConnectBtn">Connect Device</button>
+      </div>
+    </div>
+
+    <!-- Digital stethoscope -->
+    <div class="card device-card" style="grid-column: 1 / -1;">
+      <div class="device-card-head">
+        <div class="icon-wrap" id="stethIcon"></div>
+        <div>
+          <h3>Digital Stethoscope (Microphone Input)</h3>
+          <p>Select an electronic/USB stethoscope's audio input (or your laptop mic) and listen live — MedSave AI shows the raw waveform and an experimental acoustic pulse estimate.</p>
+        </div>
+      </div>
+      <span class="status-pill" id="stethStatusPill"><span class="d"></span><span class="lbl">Not listening</span></span>
+
+      <div class="wave-canvas-wrap">
+        <canvas id="stethCanvas"></canvas>
+      </div>
+
+      <div class="reading-row">
+        <div class="reading-box" style="max-width:220px;">
+          <div class="val"><span id="stethBpm">--</span><span class="unit">bpm</span></div>
+          <div class="lbl">Acoustic Pulse (experimental)</div>
+        </div>
+      </div>
+
+      <div class="device-actions" style="align-items:center;">
+        <select id="stethDeviceSelect" class="btn btn-ghost btn-sm" style="padding:10px 14px;">
+          <option value="">Default microphone</option>
+        </select>
+        <button class="btn btn-primary btn-sm" id="stethStartBtn">Start Listening</button>
+      </div>
+
+      <div class="live-note">
+        <span id="micNoteIcon"></span>
+        <span>For a real electronic stethoscope, plug it in via USB/3.5mm first, grant microphone permission, then pick it from the dropdown above. This estimate is derived from low-frequency audio envelope peaks — it's a learning demo, not a clinical-grade reading.</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Live Awareness Chat -->
+<section id="live-chat-section">
+  <div class="section-head">
+    <span class="eyebrow">Live Awareness Chat</span>
+    <h2>Ask MedSave AI about what you're seeing</h2>
+    <p>Your live readings above are automatically shared with the assistant as context — no need to type numbers in.</p>
+  </div>
+
+  <div class="card glass live-chat-panel">
+    <div class="chat-head">
+      <div class="avatar-wrap bot-avatar" id="liveChatAvatar"></div>
+      <div class="who">
+        <div class="name">MedSave AI Assistant</div>
+        <div class="status" id="liveChatStatus"><span class="d"></span><span class="label">Connecting…</span></div>
+      </div>
+      <button class="expand-btn tts-btn" id="liveChatTtsBtn" aria-label="Toggle voice replies" aria-pressed="false"></button>
+    </div>
+
+    <div class="vitals-context-bar" id="vitalsContextBar">
+      <span class="vc-empty">No live readings yet — connect a device above, and I'll factor it into the chat.</span>
+    </div>
+
+    <div class="chat-body" id="liveChatBody"></div>
+
+    <div class="quick-suggestions">
+      <button class="chip live-chip">What does my heart rate mean?</button>
+      <button class="chip live-chip">Is my blood pressure in a healthy range?</button>
+      <button class="chip live-chip">How accurate is a mic-based stethoscope?</button>
+      <button class="chip live-chip">Tips to keep my heart healthy</button>
+    </div>
+
+    <div class="chat-input-row">
+      <input type="text" id="liveChatInput" placeholder="Ask about your live reading…">
+      <button class="mic-btn" id="liveChatMic" type="button" aria-label="Speak your question" aria-pressed="false"></button>
+      <button id="liveChatSend" aria-label="Send message"></button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand">
+        <div class="logo-mark"></div>
+        <span class="brand-name">MedSave AI</span>
+      </div>
+      <p>An AI-driven public health chatbot spreading disease awareness, prevention tips, and healthy-living guidance for everyone.</p>
+    </div>
+    <div class="footer-meta">
+      <p><strong>Project:</strong> AI-Driven Public Health Chatbot for Disease Awareness</p>
+      <p style="margin-top:8px;"><strong>Created by:</strong> Teli Uday Karthik</p>
+      <p>B.Tech Student</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 MedSave AI. All Rights Reserved.</div>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/background.js"></script>
+<script src="js/chatbot.js"></script>
+<script src="js/live-reading.js"></script>
+<script>
+  document.querySelectorAll('.logo-mark').forEach(el => el.innerHTML = msIcon('logo'));
+  document.getElementById('disclaimerIcon').innerHTML = msIcon('alert');
+  document.getElementById('hrIcon').innerHTML = msIcon('heart');
+  document.getElementById('bpIcon').innerHTML = msIcon('gauge');
+  document.getElementById('stethIcon').innerHTML = msIcon('stethoscope');
+  document.getElementById('micNoteIcon').innerHTML = msIcon('mic');
+  document.getElementById('liveChatAvatar').innerHTML = msIcon('bot');
+  document.getElementById('liveChatSend').innerHTML = msIcon('send');
+</script>
+</body>
+</html>

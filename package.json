@@ -1,0 +1,22 @@
+{
+  "name": "medsave-ai",
+  "version": "2.0.0",
+  "description": "MedSave AI — AI-driven public health chatbot with live physiological-device readings, powered by Google Gemini.",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0"
+  },
+  "author": "Teli Uday Karthik",
+  "license": "MIT"
+}
