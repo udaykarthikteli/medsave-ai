@@ -13,7 +13,7 @@ const rateLimit = require('express-rate-limit');
 
 const PORT = process.env.PORT || 3000;
 let GEMINI_API_KEY = (process.env.GEMINI_API_KEY || '').trim().replace(/^["']|["']$/g, '');
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+const GEMINI_MODEL = (process.env.GEMINI_MODEL || 'gemini-flash-latest').trim().replace(/^["']|["']$/g, '');
 
 if (GEMINI_API_KEY && /your_gemini_api_key_here|your_key_here/i.test(GEMINI_API_KEY)) {
   console.warn('\n  ⚠️  GEMINI_API_KEY in .env is still the placeholder text — paste your real key from https://aistudio.google.com/apikey\n');
