@@ -108,28 +108,25 @@ function msAppendMessage(body, role, text, opts){
   return wrap;
 }
 
-/* Scrolls after layout has actually settled (double rAF) instead of right
-   after appendChild, so the entrance animation/image/font reflow can't
-   cause a second visible jump a moment later. */
+/* A single, immediate scroll — no animation frame delay. Combining a
+   delayed scroll with an in-flight transform animation on the new bubble
+   is what was likely causing Chrome to leave stale pixels painted over
+   older messages in this scrollable container. */
 function msScrollToBottom(body){
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      body.scrollTop = body.scrollHeight;
-    });
-  });
+  body.scrollTop = body.scrollHeight;
 }
 
 function msShowTyping(body){
   const wrap = document.createElement('div');
   wrap.className = 'msg bot';
+  wrap.id = 'typingIndicator';
   wrap.innerHTML = `<div class="bubble-avatar">${msIcon('bot')}</div>
     <div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
   body.appendChild(wrap);
   msScrollToBottom(body);
-  return wrap; // caller holds onto this exact node — no shared id to collide with a concurrent call
 }
-function msHideTyping(body, indicatorEl){
-  const t = indicatorEl || body.querySelector('.msg.bot .typing-dots')?.closest('.msg');
+function msHideTyping(body){
+  const t = document.getElementById('typingIndicator');
   if(t) t.remove();
 }
 
@@ -414,46 +411,29 @@ function initChatbot(){
     expandBtn.addEventListener('click', ()=> win.classList.toggle('maximized'));
   }
 
-  // Only one request/reply cycle is allowed to be in flight at a time.
-  // This is what actually stops replies from piling on top of each other:
-  // every other entry point (Enter key, chip clicks, send button) checks
-  // this before calling respond(), so a second message can't be dispatched
-  // mid-reply and race the first one back to the DOM out of order.
-  let awaitingReply = false;
-
   async function respond(userText){
-    if(awaitingReply) return;
-    awaitingReply = true;
-
     msAppendMessage(body, 'user', userText);
     history.push({ role: 'user', text: userText });
     input.value = '';
     sendBtn.disabled = true;
-    input.disabled = true;
-    const typingEl = msShowTyping(body);
+    msShowTyping(body);
 
-    try{
-      const vitals = (typeof msGetLiveVitalsSnapshot === 'function') ? msGetLiveVitalsSnapshot() : null;
-      const { reply, source } = await msGetAIReply(userText, history, vitals);
+    const vitals = (typeof msGetLiveVitalsSnapshot === 'function') ? msGetLiveVitalsSnapshot() : null;
+    const { reply, source } = await msGetAIReply(userText, history, vitals);
 
-      msHideTyping(body, typingEl);
-      msAppendMessage(body, 'bot', reply, { error: source === 'error' });
-      history.push({ role: 'bot', text: reply });
-      const spoke = tts.speak(reply, { onStart: ()=>setTalking(true), onEnd: ()=>setTalking(false) });
-      if(!spoke){
-        setTalking(true);
-        setTimeout(()=>setTalking(false), Math.min(reply.length * 18, 2600));
-      }
-    } finally {
-      awaitingReply = false;
-      sendBtn.disabled = false;
-      input.disabled = false;
-      input.focus();
+    msHideTyping(body);
+    msAppendMessage(body, 'bot', reply, { error: source === 'error' });
+    history.push({ role: 'bot', text: reply });
+    const spoke = tts.speak(reply, { onStart: ()=>setTalking(true), onEnd: ()=>setTalking(false) });
+    if(!spoke){
+      setTalking(true);
+      setTimeout(()=>setTalking(false), Math.min(reply.length * 18, 2600));
     }
+    sendBtn.disabled = false;
+    input.focus();
   }
 
   sendBtn.addEventListener('click', ()=>{
-    if(awaitingReply) return;
     const text = input.value.trim();
     if(!text) return;
     respond(text);
@@ -461,7 +441,6 @@ function initChatbot(){
   input.addEventListener('keydown', (e)=>{
     if(e.key === 'Enter'){
       e.preventDefault();
-      if(awaitingReply) return;
       const text = input.value.trim();
       if(text) respond(text);
     }
@@ -469,7 +448,6 @@ function initChatbot(){
 
   suggestions.forEach(chip=>{
     chip.addEventListener('click', ()=>{
-      if(awaitingReply) return;
       respond(chip.textContent.trim());
     });
   });

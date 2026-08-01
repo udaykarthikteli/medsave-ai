@@ -496,10 +496,11 @@ footer{
 
 .msg{
   display:flex; align-items:flex-start; gap:9px; max-width: 92%;
-  animation: msg-in .22s ease-out both;
-  overflow-anchor: none; /* only the newest message animates in; it never nudges earlier ones */
+  animation: msg-in .18s ease-out both;
+  isolation: isolate; /* forces its own stacking/paint context so a sibling
+                          bubble's pixels can never be left painted over it */
 }
-@keyframes msg-in{ from{ opacity:0; transform: translateY(4px);} to{ opacity:1; transform:translateY(0);} }
+@keyframes msg-in{ from{ opacity:0; } to{ opacity:1; } }
 .msg.bot{ align-self:flex-start; }
 .msg.user{ align-self:flex-end; flex-direction: row-reverse; }
 .msg .bubble-avatar{ width: 28px; height:28px; flex: 0 0 28px; margin-top:2px; }
