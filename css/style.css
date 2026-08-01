@@ -489,19 +489,13 @@ footer{
   flex:1; overflow-y:auto; overflow-x:hidden; min-height:0;
   padding: 18px; display:flex; flex-direction:column; gap: 14px;
   background: rgba(255,253,246,.55);
-  overflow-anchor:auto; overscroll-behavior:contain;
-  contain: layout paint;
 }
 .chat-body::-webkit-scrollbar{ width:6px; }
 .chat-body::-webkit-scrollbar-thumb{ background: var(--gold-200); border-radius:6px; }
 
 .msg{
   display:flex; align-items:flex-start; gap:9px; max-width: 92%;
-  animation: msg-in .18s ease-out both;
-  contain: paint; /* hard repaint boundary — a sibling bubble's pixels
-                      can never be left rendered inside this one's box */
 }
-@keyframes msg-in{ from{ opacity:0; } to{ opacity:1; } }
 .msg.bot{ align-self:flex-start; }
 .msg.user{ align-self:flex-end; flex-direction: row-reverse; }
 .msg .bubble-avatar{ width: 28px; height:28px; flex: 0 0 28px; margin-top:2px; }
