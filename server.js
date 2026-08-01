@@ -13,7 +13,16 @@ const rateLimit = require('express-rate-limit');
 
 const PORT = process.env.PORT || 3000;
 let GEMINI_API_KEY = (process.env.GEMINI_API_KEY || '').trim().replace(/^["']|["']$/g, '');
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+let GEMINI_MODEL = (process.env.GEMINI_MODEL || 'gemini-flash-latest').trim().replace(/^["']|["']$/g, '');
+
+// gemini-2.5-flash (and the older 1.5/2.0 line) were retired by Google for
+// new API keys — if this value is still lying around anywhere (an old
+// Render env var, a stale .env, etc.) force the safe current default
+// instead of letting every request fail with a 404.
+if (/^gemini-(1\.5|2\.0|2\.5)-/i.test(GEMINI_MODEL)) {
+  console.warn(`\n  ⚠️  GEMINI_MODEL="${GEMINI_MODEL}" is a retired model — overriding to "gemini-flash-latest". Remove/update the GEMINI_MODEL env var to stop seeing this.\n`);
+  GEMINI_MODEL = 'gemini-flash-latest';
+}
 
 if (GEMINI_API_KEY && /your_gemini_api_key_here|your_key_here/i.test(GEMINI_API_KEY)) {
   console.warn('\n  ⚠️  GEMINI_API_KEY in .env is still the placeholder text — paste your real key from https://aistudio.google.com/apikey\n');
@@ -22,7 +31,6 @@ if (GEMINI_API_KEY && /your_gemini_api_key_here|your_key_here/i.test(GEMINI_API_
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 const app = express();
-app.set('trust proxy', 1); // Render sits in front of this app as a reverse proxy
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname), { extensions: ['html'] }));
