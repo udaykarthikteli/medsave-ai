@@ -490,6 +490,7 @@ footer{
   padding: 18px; display:flex; flex-direction:column; gap: 14px;
   background: rgba(255,253,246,.55);
   overflow-anchor:auto; overscroll-behavior:contain;
+  contain: layout paint;
 }
 .chat-body::-webkit-scrollbar{ width:6px; }
 .chat-body::-webkit-scrollbar-thumb{ background: var(--gold-200); border-radius:6px; }
@@ -497,8 +498,8 @@ footer{
 .msg{
   display:flex; align-items:flex-start; gap:9px; max-width: 92%;
   animation: msg-in .18s ease-out both;
-  isolation: isolate; /* forces its own stacking/paint context so a sibling
-                          bubble's pixels can never be left painted over it */
+  contain: paint; /* hard repaint boundary — a sibling bubble's pixels
+                      can never be left rendered inside this one's box */
 }
 @keyframes msg-in{ from{ opacity:0; } to{ opacity:1; } }
 .msg.bot{ align-self:flex-start; }
