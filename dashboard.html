@@ -123,7 +123,14 @@
     <button class="chip">Emergency Advice</button>
   </div>
 
+  <div class="chat-image-preview" id="chatImagePreview" hidden>
+    <img id="chatImagePreviewThumb" alt="Attached image preview">
+    <button type="button" id="chatImageRemove" aria-label="Remove attached image">✕</button>
+  </div>
+
   <div class="chat-input-row">
+    <input type="file" id="chatImageInput" accept="image/*" hidden>
+    <button class="attach-btn" id="chatAttach" type="button" aria-label="Attach an image"></button>
     <input type="text" id="chatInput" placeholder="Ask about symptoms, prevention, wellness…">
     <button class="mic-btn" id="chatMic" type="button" aria-label="Speak your question" aria-pressed="false"></button>
     <button id="chatSend" aria-label="Send message"></button>
@@ -140,6 +147,7 @@
   document.getElementById('chatClose').innerHTML = msIcon('close');
   document.getElementById('chatExpand').innerHTML = msIcon('expand');
   document.getElementById('chatSend').innerHTML = msIcon('send');
+  document.getElementById('chatAttach').innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="9.5" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M4 16l5-5 4 4 3-3 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   document.getElementById('chatHeadAvatar').innerHTML = msIcon('bot');
   document.getElementById('tipIcon').innerHTML = msIcon('spark');
 

@@ -14,8 +14,12 @@ const MS_RESPONSES = {
   emergency: "For a medical emergency — difficulty breathing, chest pain, severe bleeding, or loss of consciousness — call your local emergency number immediately. Don't wait for symptoms to worsen.",
   greeting: "Hello! I'm your MedSave AI assistant. I can share general health awareness, prevention tips, and lifestyle guidance. What would you like to explore today?",
   vitals: "I can see your live reading. In general, this is useful for awareness trends over time — but a single reading from a consumer sensor isn't a diagnosis. If a number looks unusual for you, it's worth rechecking and mentioning it to a clinician.",
-  default: "That's a great question. While I specialize in general public health awareness and prevention tips, for anything specific to your health, please consult a licensed doctor. Would you like tips on symptoms, prevention, or healthy living instead?"
+  default: "That's a great question. While I specialize in general public health awareness and prevention tips, for anything specific to your health, please consult a licensed doctor. Would you like tips on symptoms, prevention, or healthy living instead?",
+  imageOffline: "I can see you've attached an image, but I can only look at photos when connected to the live AI service, which isn't reachable right now. Please try again shortly — or describe what you're seeing and I can share general guidance in the meantime."
 };
+
+/* Max image size accepted client-side before it's even sent to the backend. */
+const MS_MAX_IMAGE_BYTES = 4 * 1024 * 1024; // 4MB
 
 /* --------------------------- helpers --------------------------- */
 
@@ -89,10 +93,22 @@ function msAppendMessage(body, role, text, opts){
   const bubble = document.createElement('div');
   bubble.className = 'bubble' + (opts.error ? ' error-bubble' : '');
 
+  if(opts.imageDataUrl){
+    const img = document.createElement('img');
+    img.className = 'bubble-img';
+    img.src = opts.imageDataUrl;
+    img.alt = 'Attached image';
+    bubble.appendChild(img);
+  }
+
   if(role === 'bot'){
-    bubble.innerHTML = msRenderMarkdownLite(text);
-  } else {
-    bubble.textContent = text;
+    const textEl = document.createElement('div');
+    textEl.innerHTML = msRenderMarkdownLite(text);
+    bubble.appendChild(textEl);
+  } else if(text){
+    const textEl = document.createElement('div');
+    textEl.textContent = text;
+    bubble.appendChild(textEl);
   }
 
   const time = document.createElement('span');
@@ -158,24 +174,32 @@ async function msCheckAIHealth(){
  * Falls back to the local rule-based responder if the backend is
  * unreachable or no API key has been configured server-side.
  */
-async function msGetAIReply(message, history, vitals){
+async function msGetAIReply(message, history, vitals, image){
+  // Demo/offline mode can't actually look at an image — say so plainly
+  // instead of silently ignoring the attachment.
   if(MS_AI_STATUS === 'offline'){
-    return { reply: msMatchResponse(message), source: 'demo' };
+    return { reply: image ? MS_RESPONSES.imageOffline : msMatchResponse(message), source: 'demo' };
   }
   try{
     const ctrl = new AbortController();
-    const timer = setTimeout(()=>ctrl.abort(), 20000);
+    const timer = setTimeout(()=>ctrl.abort(), 30000);
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, history: history || [], vitals: vitals || null }),
+      body: JSON.stringify({
+        message,
+        history: history || [],
+        vitals: vitals || null,
+        // image: { mimeType: 'image/png', data: '<base64, no data: prefix>' }
+        image: image ? { mimeType: image.mimeType, data: image.base64 } : null
+      }),
       signal: ctrl.signal
     });
     clearTimeout(timer);
 
     if(res.status === 503){
       MS_AI_STATUS = 'demo';
-      return { reply: msMatchResponse(message), source: 'demo' };
+      return { reply: image ? MS_RESPONSES.imageOffline : msMatchResponse(message), source: 'demo' };
     }
     if(!res.ok){
       const err = await res.json().catch(()=>({}));
@@ -185,7 +209,7 @@ async function msGetAIReply(message, history, vitals){
     return { reply: data.reply, source: 'live' };
   } catch(e){
     MS_AI_STATUS = 'offline';
-    return { reply: msMatchResponse(message), source: 'demo' };
+    return { reply: image ? MS_RESPONSES.imageOffline : msMatchResponse(message), source: 'demo' };
   }
 }
 
@@ -263,6 +287,79 @@ function msWireMic(micBtn, input){
   micBtn.addEventListener('click', () => {
     listening ? stopListening() : startListening();
   });
+}
+
+/* --------------------------- image attach (upload → preview → send) --------------------------- */
+
+function msFileToBase64(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = () => {
+      // result looks like "data:image/png;base64,AAAA..." — split off the prefix
+      const dataUrl = reader.result;
+      const base64 = dataUrl.split(',')[1] || '';
+      resolve({ dataUrl, base64 });
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+/**
+ * Wires the paperclip/attach button + hidden file input + preview strip.
+ * Keeps the currently-attached image in a small state object that the
+ * caller reads from (via getImage()) when the message is actually sent,
+ * and clears it (via clear()) once sent or removed.
+ */
+function msWireImageUpload({ attachBtn, fileInput, previewBar, previewThumb, removeBtn, onChange }){
+  let current = null; // { file, mimeType, base64, dataUrl }
+
+  function paint(){
+    if(current){
+      previewThumb.src = current.dataUrl;
+      previewBar.hidden = false;
+      attachBtn.classList.add('has-image');
+    } else {
+      previewBar.hidden = true;
+      attachBtn.classList.remove('has-image');
+    }
+    if(onChange) onChange(current);
+  }
+
+  attachBtn.addEventListener('click', () => fileInput.click());
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files && fileInput.files[0];
+    fileInput.value = ''; // allow re-selecting the same file later
+    if(!file) return;
+
+    if(!file.type.startsWith('image/')){
+      alert('Please choose an image file.');
+      return;
+    }
+    if(file.size > MS_MAX_IMAGE_BYTES){
+      alert('That image is a bit too large — please choose one under 4MB.');
+      return;
+    }
+
+    try{
+      const { dataUrl, base64 } = await msFileToBase64(file);
+      current = { file, mimeType: file.type, base64, dataUrl };
+      paint();
+    } catch(e){
+      alert("Couldn't read that image — please try another file.");
+    }
+  });
+
+  removeBtn.addEventListener('click', () => {
+    current = null;
+    paint();
+  });
+
+  return {
+    getImage: () => current,
+    clear: () => { current = null; paint(); }
+  };
 }
 
 /* --------------------------- voice output (text → speech) --------------------------- */
@@ -380,6 +477,11 @@ function initChatbot(){
   const suggestions = document.querySelectorAll('.chip');
   const headAvatar = document.getElementById('chatHeadAvatar');
   const statusEl = document.getElementById('chatStatus');
+  const attachBtn = document.getElementById('chatAttach');
+  const imageInput = document.getElementById('chatImageInput');
+  const previewBar = document.getElementById('chatImagePreview');
+  const previewThumb = document.getElementById('chatImagePreviewThumb');
+  const imageRemoveBtn = document.getElementById('chatImageRemove');
 
   if(!launcher || !win) return;
 
@@ -387,6 +489,10 @@ function initChatbot(){
   const tts = msWireTTS(ttsBtn);
   msWireMic(micBtn, input);
   msStabilizeChatViewport(win);
+
+  const imageUpload = (attachBtn && imageInput && previewBar && previewThumb && imageRemoveBtn)
+    ? msWireImageUpload({ attachBtn, fileInput: imageInput, previewBar, previewThumb, removeBtn: imageRemoveBtn })
+    : null;
 
   msCheckAIHealth().then((mode)=> msSetStatusPill(statusEl, mode));
   document.addEventListener('ms-ai-status', (e)=> msSetStatusPill(statusEl, e.detail));
@@ -423,18 +529,22 @@ function initChatbot(){
 
   async function respond(userText){
     if(awaitingReply) return;
+    const attachedImage = imageUpload ? imageUpload.getImage() : null;
+    if(!userText && !attachedImage) return; // nothing to send
     awaitingReply = true;
 
-    msAppendMessage(body, 'user', userText);
-    history.push({ role: 'user', text: userText });
+    msAppendMessage(body, 'user', userText, { imageDataUrl: attachedImage ? attachedImage.dataUrl : null });
+    history.push({ role: 'user', text: userText || '(sent an image)' });
     input.value = '';
+    if(imageUpload) imageUpload.clear();
     sendBtn.disabled = true;
     input.disabled = true;
+    if(attachBtn) attachBtn.disabled = true;
     const typingEl = msShowTyping(body);
 
     try{
       const vitals = (typeof msGetLiveVitalsSnapshot === 'function') ? msGetLiveVitalsSnapshot() : null;
-      const { reply, source } = await msGetAIReply(userText, history, vitals);
+      const { reply, source } = await msGetAIReply(userText, history, vitals, attachedImage);
 
       msHideTyping(body, typingEl);
       msAppendMessage(body, 'bot', reply, { error: source === 'error' });
@@ -448,6 +558,7 @@ function initChatbot(){
       awaitingReply = false;
       sendBtn.disabled = false;
       input.disabled = false;
+      if(attachBtn) attachBtn.disabled = false;
       input.focus();
     }
   }
@@ -455,7 +566,7 @@ function initChatbot(){
   sendBtn.addEventListener('click', ()=>{
     if(awaitingReply) return;
     const text = input.value.trim();
-    if(!text) return;
+    if(!text && !(imageUpload && imageUpload.getImage())) return;
     respond(text);
   });
   input.addEventListener('keydown', (e)=>{
@@ -463,7 +574,7 @@ function initChatbot(){
       e.preventDefault();
       if(awaitingReply) return;
       const text = input.value.trim();
-      if(text) respond(text);
+      if(text || (imageUpload && imageUpload.getImage())) respond(text);
     }
   });
 

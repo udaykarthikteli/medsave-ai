@@ -583,6 +583,45 @@ footer{
 }
 .chat-input-row .mic-btn:disabled:hover{ transform:none; background:#fff; }
 
+/* Attach-image button — same outline style as the mic button so both
+   secondary actions read consistently next to the solid gold send button. */
+.chat-input-row .attach-btn{
+  background: #fff; color: var(--gold-600);
+  border: 1.5px solid rgba(201,162,39,.3);
+}
+.chat-input-row .attach-btn:hover{ background: var(--gold-100); }
+.chat-input-row .attach-btn.has-image{
+  background: var(--gold-500); border-color: var(--gold-500); color:#fff;
+}
+
+/* Small thumbnail preview shown above the input row once an image is
+   attached, with a remove (×) button so the person can back out before sending. */
+.chat-image-preview{
+  display:flex; align-items:center; gap:10px;
+  padding: 10px 16px; flex: none;
+  border-top: 1px solid var(--glass-border);
+  background: rgba(255,255,255,.5);
+}
+.chat-image-preview img{
+  width:44px; height:44px; object-fit:cover; border-radius:10px;
+  border: 1.5px solid rgba(201,162,39,.3);
+}
+.chat-image-preview button{
+  width:24px; height:24px; border-radius:50%; border:none; flex:none;
+  background: rgba(201,162,39,.15); color: var(--gold-700);
+  font-size:.75rem; line-height:1; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition: background .2s;
+  margin-left:auto;
+}
+.chat-image-preview button:hover{ background: rgba(201,162,39,.28); }
+
+/* Image thumbnail rendered inside a sent chat bubble */
+.bubble .bubble-img{
+  max-width: 180px; max-height: 180px; border-radius: 12px;
+  display:block; margin-bottom:6px; object-fit:cover;
+}
+
 /* TTS (speak replies) toggle — lives in the chat header next to expand/close. */
 .chat-head .tts-btn.active{ background: rgba(255,255,255,.42); }
 .chat-head .tts-btn:disabled{ opacity:.4; cursor:not-allowed; }
