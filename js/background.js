@@ -37,6 +37,49 @@ function buildFloatingIcons(container, names){
   });
 }
 
+/* Realistic virus render (electron-microscope style sphere with spike proteins),
+   built in the site's existing gold/yellow palette so it drops in cleanly.
+   `id` just needs to be unique per instance so each copy gets its own gradient defs. */
+function buildVirusSVG(id){
+  const spikeCount = 14 + Math.floor(Math.random()*4);
+  let spikes = '';
+  for(let i=0;i<spikeCount;i++){
+    const angle = (i/spikeCount)*Math.PI*2 + (Math.random()*0.12);
+    const x1 = 50 + Math.cos(angle)*26, y1 = 50 + Math.sin(angle)*26;
+    const x2 = 50 + Math.cos(angle)*38, y2 = 50 + Math.sin(angle)*38;
+    spikes += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="url(#spikeGrad${id})" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="${x2.toFixed(1)}" cy="${y2.toFixed(1)}" r="4.1" fill="url(#bulbGrad${id})"/>`;
+  }
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="bodyGrad${id}" cx="35%" cy="32%" r="70%">
+        <stop offset="0%" stop-color="#fff6cf"/>
+        <stop offset="45%" stop-color="#f4d23a"/>
+        <stop offset="100%" stop-color="#c9a227"/>
+      </radialGradient>
+      <linearGradient id="spikeGrad${id}" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#e8c34a"/>
+        <stop offset="100%" stop-color="#a6821a"/>
+      </linearGradient>
+      <radialGradient id="bulbGrad${id}" cx="35%" cy="30%" r="70%">
+        <stop offset="0%" stop-color="#fff6cf"/>
+        <stop offset="100%" stop-color="#c9a227"/>
+      </radialGradient>
+      <filter id="shadow${id}" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="1.5" stdDeviation="1.6" flood-color="#a6821a" flood-opacity="0.45"/>
+      </filter>
+    </defs>
+    <g filter="url(#shadow${id})">
+      ${spikes}
+      <circle cx="50" cy="50" r="27" fill="url(#bodyGrad${id})"/>
+      <circle cx="41" cy="40" r="4" fill="#fffbe6" opacity="0.55"/>
+      <circle cx="61" cy="47" r="2.6" fill="#8a6a12" opacity="0.35"/>
+      <circle cx="46" cy="59" r="3.2" fill="#8a6a12" opacity="0.3"/>
+      <circle cx="58" cy="61" r="2.2" fill="#8a6a12" opacity="0.3"/>
+    </g>
+  </svg>`;
+}
+
 /* Guardian scene: small AI bots patrol and clear floating "germ" characters with a healing beam.
    Purely decorative, gentle and non-violent — germs fade into sparkles, then quietly respawn elsewhere. */
 function buildGuardianScene(container, {germCount = 7, botCount = 2} = {}){
@@ -50,7 +93,7 @@ function buildGuardianScene(container, {germCount = 7, botCount = 2} = {}){
     g.style.top = (14+Math.random()*72)+'%';
     g.style.animationDuration = (12+Math.random()*10)+'s';
     g.style.animationDelay = (Math.random()*4)+'s';
-    g.innerHTML = msIcon(Math.random()>0.5 ? 'germ1':'germ2');
+    g.innerHTML = buildVirusSVG('germ'+i);
     container.appendChild(g);
     germs.push(g);
   }
