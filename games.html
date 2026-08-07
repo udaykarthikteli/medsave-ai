@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Take a Breather — MedSave AI</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/games.css">
+</head>
+<body>
+
+<div class="bg-canvas" data-icons="heart,shield,dna"></div>
+
+<nav class="navbar" style="position:relative; z-index:5;">
+  <a href="index.html" class="brand">
+    <div class="logo-mark"></div>
+    <span class="brand-name">MedSave AI</span>
+  </a>
+  <div class="nav-actions">
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+  </div>
+</nav>
+
+<div class="games-hero">
+  <span class="eyebrow">Mental Wellness</span>
+  <h1>Take a <span class="accent">breather</span></h1>
+  <p>Three short, hands-on exercises for moments of stress, restlessness, or a racing mind. No sign-up, no scoring — just a couple of quiet minutes.</p>
+  <p class="disclaimer">These are relaxation tools, not a medical treatment. If stress or anxiety is affecting your daily life, please talk to a doctor or licensed mental health professional.</p>
+</div>
+
+<!-- 1. Bubble wrap -->
+<section class="game-panel">
+  <div class="game-media">
+    <div class="bubble-grid" id="bubbleGrid"></div>
+    <div class="bubble-stat" id="bubbleStat">0 / 24 popped</div>
+    <button class="btn btn-ghost btn-sm bubble-reset" id="bubbleReset">Re-inflate</button>
+  </div>
+  <div class="game-info">
+    <div class="tag-row">
+      <span class="best-for">Restlessness</span>
+      <span class="best-for">Fidgety, racing thoughts</span>
+    </div>
+    <h2>Bubble Pop</h2>
+    <p class="desc">A realistic sheet of bubble wrap you can pop one cell at a time, each with its own soft click. Good for the kind of nervous, can't-sit-still energy that builds up during a stressful day.</p>
+    <ul class="why">
+      <li>Gives fidgety hands a small, repetitive task to focus on</li>
+      <li>Short bursts of tactile feedback are a common, low-effort way to interrupt a stress spiral</li>
+      <li>No wrong way to play — pop one bubble or all of them</li>
+    </ul>
+    <div class="meta">~1–2 minutes · works on desktop &amp; touch</div>
+  </div>
+</section>
+
+<!-- 2. Kinetic sand -->
+<section class="game-panel reverse">
+  <div class="game-media sand-media">
+    <canvas id="sandCanvas"></canvas>
+    <div class="sand-hint" id="sandHint">Drag your finger or mouse through the sand</div>
+    <button class="btn btn-ghost btn-sm sand-reset" id="sandReset">Smooth the sand</button>
+  </div>
+  <div class="game-info">
+    <div class="tag-row">
+      <span class="best-for">Sensory overwhelm</span>
+      <span class="best-for">Grounding</span>
+    </div>
+    <h2>Kinetic Sand</h2>
+    <p class="desc">Drag across a patch of soft, shadowed sand and watch it hold the groove — a slower, grounding motion rather than a quick fix. Smooth it flat any time and start again.</p>
+    <ul class="why">
+      <li>Slow, deliberate motion helps pull attention back to the present moment</li>
+      <li>Grounding exercises like this are widely used alongside breathing techniques for anxious moments</li>
+      <li>Nothing to win or lose — there's no "finished" state</li>
+    </ul>
+    <div class="meta">~2–3 minutes · best with a mouse or touchscreen</div>
+  </div>
+</section>
+
+<!-- 3. Breathing guide -->
+<section class="game-panel">
+  <div class="game-media breathe-media">
+    <div class="breathe-orb-wrap">
+      <div class="breathe-ring"></div>
+      <div class="breathe-orb rest" id="breatheOrb"></div>
+    </div>
+    <div class="breathe-label" id="breatheLabel">Press start when ready</div>
+    <div class="breathe-count" id="breatheCount"></div>
+    <button class="btn btn-primary btn-sm breathe-start" id="breatheToggle">Start breathing</button>
+  </div>
+  <div class="game-info">
+    <div class="tag-row">
+      <span class="best-for">Acute stress / panic</span>
+      <span class="best-for">Racing heart</span>
+    </div>
+    <h2>Guided Breathing</h2>
+    <p class="desc">A softly glowing orb expands and contracts on a steady 4–4–6–2 rhythm: breathe in, hold, breathe out, hold. Follow it with your breath for a few full cycles.</p>
+    <ul class="why">
+      <li>Paced breathing is one of the most well-established ways to calm a fast heart rate in the moment</li>
+      <li>The longer exhale (6s) is deliberate — it's the phase most linked to a calming effect</li>
+      <li>Works anywhere, needs nothing but your breath</li>
+    </ul>
+    <div class="meta">~2–5 minutes · works best with sound off, eyes on the orb</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-bottom">© 2026 MedSave AI. All Rights Reserved.</div>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/background.js"></script>
+<script src="js/games.js"></script>
+<script>
+  document.querySelectorAll('.logo-mark').forEach(el => el.innerHTML = msIcon('logo'));
+</script>
+</body>
+</html>

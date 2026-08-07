@@ -1,0 +1,129 @@
+/* ===================== Take a Breather — games page ===================== */
+/* Reuses the design tokens already defined in css/style.css (--gold-*, --ink,
+   --cream, --glass-*, --radius-*, --font-display/--font-body) so this page
+   feels like part of the same product, not a bolted-on module. */
+
+.games-hero{
+  max-width: 760px; margin: 0 auto 8px; text-align:center;
+  padding: 56px 20px 8px;
+}
+.games-hero .eyebrow{
+  display:inline-block; padding:6px 14px; border-radius: var(--radius-pill);
+  background: var(--gold-100); color: var(--gold-700);
+  font-size:.78rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+  margin-bottom:14px;
+}
+.games-hero h1{ font-size: clamp(1.7rem, 4vw, 2.5rem); margin-bottom:12px; }
+.games-hero p{ font-size:1.02rem; max-width:520px; margin:0 auto; }
+.games-hero .disclaimer{
+  margin-top:18px; font-size:.82rem; color: var(--ink-faint);
+}
+
+.game-panel{
+  max-width: 1080px; margin: 56px auto; padding: 0 20px;
+  display:grid; grid-template-columns: 1.05fr .95fr; gap: 36px; align-items:center;
+}
+.game-panel.reverse{ direction: rtl; }
+.game-panel.reverse > *{ direction: ltr; }
+
+.game-media{
+  position:relative; aspect-ratio: 4/3; border-radius: var(--radius-lg);
+  background: var(--glass-bg); border:1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow); overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.game-media canvas, .game-media .bubble-grid{ width:100%; height:100%; display:block; }
+
+.game-info .tag-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.game-info .best-for{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; border-radius: var(--radius-pill);
+  background:#fff; border:1px solid var(--glass-border);
+  font-size:.78rem; font-weight:600; color: var(--gold-700);
+}
+.game-info h2{ font-size: clamp(1.25rem, 2.4vw, 1.6rem); margin-bottom:10px; }
+.game-info p.desc{ margin-bottom:16px; }
+.game-info .why{ list-style:none; padding:0; margin: 0 0 20px; display:flex; flex-direction:column; gap:8px; }
+.game-info .why li{ display:flex; gap:8px; align-items:flex-start; font-size:.92rem; color: var(--ink-soft); }
+.game-info .why li::before{ content:'✓'; color: var(--gold-500); font-weight:800; flex:none; }
+.game-info .meta{ font-size:.8rem; color: var(--ink-faint); }
+
+/* -------- Bubble wrap -------- */
+.bubble-grid{
+  display:grid; grid-template-columns: repeat(6, 1fr); gap: 6%;
+  padding: 10%; background:
+    radial-gradient(120% 100% at 10% 0%, rgba(255,255,255,.5), transparent 60%),
+    linear-gradient(180deg, var(--gold-50), var(--gold-100));
+}
+.bubble{
+  aspect-ratio:1; border-radius:50%; cursor:pointer; position:relative;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,.95), rgba(255,255,255,.15) 38%, rgba(201,162,39,.12) 60%, rgba(166,130,26,.22) 100%);
+  box-shadow:
+    inset 0 -3px 5px rgba(166,130,26,.25),
+    inset 0 3px 4px rgba(255,255,255,.7),
+    0 3px 6px rgba(166,130,26,.18);
+  transition: transform .12s ease;
+}
+.bubble:hover{ transform: scale(1.04); }
+.bubble.popped{
+  background: radial-gradient(circle at 40% 35%, rgba(166,130,26,.18), rgba(166,130,26,.06) 70%);
+  box-shadow: inset 0 2px 5px rgba(124,96,19,.4);
+  transform: scale(.86);
+  cursor:default;
+}
+.bubble-stat{
+  position:absolute; top:12px; right:16px;
+  background: rgba(255,255,255,.75); border:1px solid var(--glass-border);
+  border-radius: var(--radius-pill); padding:5px 12px; font-size:.75rem; font-weight:700;
+  color: var(--gold-700);
+}
+.bubble-reset{
+  position:absolute; bottom:12px; right:16px;
+}
+
+/* -------- Kinetic sand -------- */
+.sand-media{ cursor: grab; }
+.sand-media:active{ cursor: grabbing; }
+.sand-reset{ position:absolute; bottom:12px; right:16px; }
+.sand-hint{
+  position:absolute; top:12px; left:16px;
+  background: rgba(255,255,255,.65); border:1px solid var(--glass-border);
+  border-radius: var(--radius-pill); padding:5px 12px; font-size:.72rem; color: var(--ink-soft);
+  pointer-events:none; transition: opacity .4s;
+}
+
+/* -------- Breathing bubble -------- */
+.breathe-media{ background:
+    radial-gradient(120% 100% at 50% 100%, var(--gold-100), transparent 60%),
+    linear-gradient(180deg, var(--gold-50), var(--cream));
+  flex-direction:column; gap:18px;
+}
+.breathe-orb-wrap{ position:relative; width:150px; height:150px; display:flex; align-items:center; justify-content:center; }
+.breathe-ring{
+  position:absolute; inset:0; border-radius:50%;
+  border:1.5px solid rgba(201,162,39,.35);
+}
+.breathe-orb{
+  width:90px; height:90px; border-radius:50%;
+  background: radial-gradient(circle at 32% 28%, var(--gold-100), var(--gold-400) 55%, var(--gold-600) 100%);
+  box-shadow: 0 0 40px rgba(201,162,39,.5), inset 0 -6px 14px rgba(124,96,19,.4), inset 0 6px 12px rgba(255,255,255,.5);
+  transition: transform 4s cubic-bezier(.45,0,.4,1);
+  transform: scale(0.72);
+}
+.breathe-orb.inhale{ transform: scale(1.15); transition-duration: 4s; }
+.breathe-orb.hold{ transform: scale(1.15); transition-duration: .3s; }
+.breathe-orb.exhale{ transform: scale(0.72); transition-duration: 6s; }
+.breathe-orb.rest{ transform: scale(0.72); transition-duration: .3s; }
+.breathe-label{
+  font-family: var(--font-display); font-weight:700; color: var(--gold-700);
+  font-size:1.05rem; letter-spacing:.02em; min-height:1.4em;
+}
+.breathe-count{ font-size:.78rem; color: var(--ink-faint); }
+.breathe-start{ margin-top:4px; }
+
+@media (max-width: 820px){
+  .game-panel{ grid-template-columns: 1fr; }
+  .game-panel.reverse{ direction: ltr; }
+  .game-media{ order:-1; aspect-ratio: 16/10; }
+}
