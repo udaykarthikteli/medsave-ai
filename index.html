@@ -18,28 +18,34 @@
       <span class="brand-name">MedSave AI</span>
     </div>
     <div class="nav-actions">
-      <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
-      <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+      <select id="langPicker" class="btn btn-ghost btn-sm" aria-label="Language">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="te">తెలుగు</option>
+      </select>
+      <a href="login.html" class="btn btn-ghost btn-sm" data-i18n="nav_login">Log in</a>
+      <a href="signup.html" class="btn btn-primary btn-sm" data-i18n="nav_signup">Sign up</a>
     </div>
   </nav>
 
   <main class="hero">
-    <span class="hero-badge"><span class="dot"></span> AI-Driven Public Health Chatbot</span>
+    <span class="hero-badge"><span class="dot"></span> <span data-i18n="home_badge">AI-Driven Public Health Chatbot</span></span>
     <div class="logo-mark big" id="heroLogo"></div>
-    <h1>Welcome to <span class="accent">MedSave AI</span></h1>
-    <p class="tagline">Your AI Companion for Public Health Awareness and Disease Prevention.</p>
+    <h1><span data-i18n="hero_welcome_prefix">Welcome to</span> <span class="accent">MedSave AI</span></h1>
+    <p class="tagline" data-i18n="home_tagline">Your AI Companion for Public Health Awareness and Disease Prevention.</p>
 
     <div class="hero-actions">
-      <a href="login.html" class="btn btn-primary">Login</a>
-      <a href="signup.html" class="btn btn-ghost">Sign Up</a>
+      <a href="login.html" class="btn btn-primary" data-i18n="nav_login">Login</a>
+      <a href="signup.html" class="btn btn-ghost" data-i18n="nav_signup">Sign Up</a>
     </div>
 
-    <p class="hero-footnote">AI-Driven Public Health Chatbot for Disease Awareness · B.Tech Final Year Project</p>
+    <p class="hero-footnote" data-i18n="home_footnote">AI-Driven Public Health Chatbot for Disease Awareness · B.Tech Final Year Project</p>
   </main>
 </div>
 
 <script src="js/icons.js"></script>
 <script src="js/background.js"></script>
+<script src="js/i18n.js"></script>
 <script>
   document.querySelectorAll('.logo-mark').forEach(el => el.innerHTML = msIcon('logo'));
 </script>

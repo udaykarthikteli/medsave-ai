@@ -90,6 +90,73 @@ const MS_I18N = {
     sos_fa_chest_steps:['Call 108 immediately — every minute matters.','Help them sit or lie down in a comfortable, calm position.','Loosen tight clothing around the neck and chest.','Stay with them and keep them calm until help arrives.'],
     sos_fa_snake_title:'Snake Bite',
     sos_fa_snake_steps:['Keep the person still and calm — movement spreads venom faster.','Keep the bitten limb at or below heart level.','Remove rings, watches, or anything tight near the bite.','Do NOT cut the wound, suck out venom, or apply a tourniquet.','Get to a hospital immediately and call 108 on the way.'],
+
+    nav_login:'Log in', nav_signup:'Sign up', nav_back_dashboard:'← Dashboard',
+
+    home_badge:'AI-Driven Public Health Chatbot',
+    home_tagline:'Your AI Companion for Public Health Awareness and Disease Prevention.',
+    home_footnote:'AI-Driven Public Health Chatbot for Disease Awareness · B.Tech Final Year Project',
+
+    games_eyebrow:'Mental Wellness',
+    games_title_prefix:'Take a', games_title_accent:'breather',
+    games_subtitle:'Three short, hands-on exercises for moments of stress, restlessness, or a racing mind. No sign-up, no scoring — just a couple of quiet minutes.',
+    games_disclaimer:'These are relaxation tools, not a medical treatment. If stress or anxiety is affecting your daily life, please talk to a doctor or licensed mental health professional.',
+
+    game1_tag1:'Restlessness', game1_tag2:'Fidgety, racing thoughts',
+    game1_reset:'Re-inflate', game1_title:'Bubble Pop',
+    game1_desc:"A realistic sheet of bubble wrap you can pop one cell at a time, each with its own soft click. Good for the kind of nervous, can't-sit-still energy that builds up during a stressful day.",
+    game1_why1:'Gives fidgety hands a small, repetitive task to focus on',
+    game1_why2:'Short bursts of tactile feedback are a common, low-effort way to interrupt a stress spiral',
+    game1_why3:'No wrong way to play — pop one bubble or all of them',
+    game1_meta:'~1–2 minutes · works on desktop & touch',
+
+    game2_hint:'Drag your finger or mouse through the sand', game2_reset:'Smooth the sand',
+    game2_tag1:'Sensory overwhelm', game2_tag2:'Grounding', game2_title:'Kinetic Sand',
+    game2_desc:'Drag across a patch of soft, shadowed sand and watch it hold the groove — a slower, grounding motion rather than a quick fix. Smooth it flat any time and start again.',
+    game2_why1:'Slow, deliberate motion helps pull attention back to the present moment',
+    game2_why2:'Grounding exercises like this are widely used alongside breathing techniques for anxious moments',
+    game2_why3:'Nothing to win or lose — there\u2019s no "finished" state',
+    game2_meta:'~2–3 minutes · best with a mouse or touchscreen',
+
+    game3_ready:'Press start when ready', game3_start:'Start breathing',
+    game3_tag1:'Acute stress / panic', game3_tag2:'Racing heart', game3_title:'Guided Breathing',
+    game3_desc:'A softly glowing orb expands and contracts on a steady 4–4–6–2 rhythm: breathe in, hold, breathe out, hold. Follow it with your breath for a few full cycles.',
+    game3_why1:'Paced breathing is one of the most well-established ways to calm a fast heart rate in the moment',
+    game3_why2:"The longer exhale (6s) is deliberate — it's the phase most linked to a calming effect",
+    game3_why3:'Works anywhere, needs nothing but your breath',
+    game3_meta:'~2–5 minutes · works best with sound off, eyes on the orb',
+
+    live_badge:'Physical AI · Real device bridge', live_title:'Live Reading',
+    live_subtitle:'Connect real physiological devices straight from your browser — a Bluetooth heart-rate strap, a Bluetooth blood-pressure cuff, or an electronic stethoscope through your microphone input — and get live, context-aware awareness from MedSave AI.',
+    live_disclaimer_strong:'Not a medical device.',
+    live_disclaimer_text:"Readings shown here come from consumer/BLE sensors and an experimental microphone-based acoustic estimate. They're for general awareness and learning only — not a diagnosis, not a certified medical measurement. For anything urgent, contact a licensed clinician or your local emergency number.",
+    live_connect_eyebrow:'Connect a Device', live_connect_heading:'Bring real hardware into the conversation',
+    live_connect_sub:'Uses the standard Web Bluetooth and Web Audio browser APIs — no app install required. Works best in Chrome or Edge on desktop / Android.',
+
+    live_hr_title:'Bluetooth Heart Rate Monitor',
+    live_hr_desc:'Any BLE device broadcasting the standard Heart Rate Service (chest straps, smartwatches, rings).',
+    live_hr_label:'Heart Rate',
+
+    live_bp_title:'Bluetooth Blood Pressure Cuff',
+    live_bp_desc:'Any BLE cuff broadcasting the standard Blood Pressure Service — take a reading on the cuff to sync it here.',
+    live_bp_label1:'Systolic / Diastolic', live_bp_label2:'Pulse',
+
+    live_steth_title:'Digital Stethoscope (Microphone Input)',
+    live_steth_desc:"Select an electronic/USB stethoscope's audio input (or your laptop mic) and listen live — MedSave AI shows the raw waveform and an experimental acoustic pulse estimate.",
+    live_steth_label:'Acoustic Pulse (experimental)', live_steth_default_mic:'Default microphone',
+    live_steth_start:'Start Listening',
+    live_steth_note:"For a real electronic stethoscope, plug it in via USB/3.5mm first, grant microphone permission, then pick it from the dropdown above. This estimate is derived from low-frequency audio envelope peaks — it's a learning demo, not a clinical-grade reading.",
+
+    live_status_notconnected:'Not connected', live_status_notlistening:'Not listening',
+    live_connect_btn:'Connect Device',
+
+    live_chat_eyebrow:'Live Awareness Chat', live_chat_heading:"Ask MedSave AI about what you're seeing",
+    live_chat_sub:'Your live readings above are automatically shared with the assistant as context — no need to type numbers in.',
+    live_chat_name:'MedSave AI Assistant',
+    live_vitals_empty:"No live readings yet — connect a device above, and I'll factor it into the chat.",
+    live_chip1:'What does my heart rate mean?', live_chip2:'Is my blood pressure in a healthy range?',
+    live_chip3:'How accurate is a mic-based stethoscope?', live_chip4:'Tips to keep my heart healthy',
+    live_chat_placeholder:'Ask about your live reading…',
   },
 
   hi: {
@@ -170,6 +237,73 @@ const MS_I18N = {
     sos_fa_chest_steps:['तुरंत 108 पर कॉल करें — हर मिनट कीमती है।','उन्हें आरामदायक स्थिति में बैठाएं या लिटाएं।','गले और सीने के आसपास के तंग कपड़े ढीले करें।','मदद आने तक उनके साथ रहें और उन्हें शांत रखें।'],
     sos_fa_snake_title:'सांप का काटना',
     sos_fa_snake_steps:['व्यक्ति को शांत और स्थिर रखें — हिलने-डुलने से ज़हर तेज़ी से फैलता है।','काटे गए अंग को दिल के स्तर पर या उससे नीचे रखें।','काटने वाली जगह के पास की अंगूठियां, घड़ी आदि हटा दें।','घाव को काटें नहीं, ज़हर चूसें नहीं, और टूर्निकेट न बांधें।','तुरंत अस्पताल जाएं और रास्ते में 108 पर कॉल करें।'],
+
+    nav_login:'लॉग इन', nav_signup:'साइन अप', nav_back_dashboard:'← डैशबोर्ड',
+
+    home_badge:'AI-संचालित सार्वजनिक स्वास्थ्य चैटबॉट',
+    home_tagline:'सार्वजनिक स्वास्थ्य जागरूकता और बीमारी की रोकथाम के लिए आपका AI साथी।',
+    home_footnote:'बीमारी जागरूकता के लिए AI-संचालित सार्वजनिक स्वास्थ्य चैटबॉट · B.Tech अंतिम वर्ष प्रोजेक्ट',
+
+    games_eyebrow:'मानसिक स्वास्थ्य',
+    games_title_prefix:'थोड़ा', games_title_accent:'आराम करें',
+    games_subtitle:'तनाव, बेचैनी या दौड़ते दिमाग के पलों के लिए तीन छोटी, हाथों से की जाने वाली एक्सरसाइज़। कोई साइन-अप नहीं, कोई स्कोरिंग नहीं — बस कुछ शांत मिनट।',
+    games_disclaimer:'ये रिलैक्सेशन टूल हैं, चिकित्सा उपचार नहीं। अगर तनाव या चिंता आपके रोज़मर्रा के जीवन को प्रभावित कर रही है, तो कृपया किसी डॉक्टर या लाइसेंस प्राप्त मानसिक स्वास्थ्य विशेषज्ञ से बात करें।',
+
+    game1_tag1:'बेचैनी', game1_tag2:'बेचैन, दौड़ते विचार',
+    game1_reset:'फिर से फुलाएं', game1_title:'बबल पॉप',
+    game1_desc:'बबल रैप की एक असली शीट, जिसे आप एक-एक कर के दबा सकते हैं, हर एक की अपनी हल्की क्लिक ध्वनि के साथ। तनाव भरे दिन में बनने वाली बेचैन, स्थिर न रह पाने वाली ऊर्जा के लिए अच्छा।',
+    game1_why1:'बेचैन हाथों को ध्यान लगाने के लिए एक छोटा, दोहराया जाने वाला काम देता है',
+    game1_why2:'स्पर्श की छोटी झलकें तनाव के सिलसिले को तोड़ने का एक आम, आसान तरीका हैं',
+    game1_why3:'खेलने का कोई गलत तरीका नहीं — एक बबल दबाएं या सारे',
+    game1_meta:'~1–2 मिनट · डेस्कटॉप और टच दोनों पर काम करता है',
+
+    game2_hint:'रेत में अपनी उंगली या माउस घुमाएं', game2_reset:'रेत को समतल करें',
+    game2_tag1:'संवेदी अधिभार', game2_tag2:'ग्राउंडिंग', game2_title:'काइनेटिक सैंड',
+    game2_desc:'मुलायम, छायादार रेत पर उंगली घुमाएं और देखें कि निशान कैसे बना रहता है — यह त्वरित समाधान नहीं, बल्कि धीमी, ग्राउंडिंग गति है। कभी भी इसे समतल कर के फिर से शुरू करें।',
+    game2_why1:'धीमी, सोची-समझी गति ध्यान को वर्तमान क्षण पर वापस लाने में मदद करती है',
+    game2_why2:'इस तरह की ग्राउंडिंग एक्सरसाइज़ चिंता भरे पलों में सांस लेने की तकनीकों के साथ आम तौर पर इस्तेमाल की जाती हैं',
+    game2_why3:'जीतने या हारने को कुछ नहीं — यहां कोई "पूरा हुआ" जैसी स्थिति नहीं है',
+    game2_meta:'~2–3 मिनट · माउस या टचस्क्रीन के साथ सबसे बेहतर',
+
+    game3_ready:'तैयार होने पर शुरू करें दबाएं', game3_start:'सांस लेना शुरू करें',
+    game3_tag1:'तीव्र तनाव / घबराहट', game3_tag2:'तेज़ दिल की धड़कन', game3_title:'निर्देशित श्वास',
+    game3_desc:'एक हल्की चमकती हुई गेंद 4–4–6–2 की स्थिर लय में फैलती और सिकुड़ती है: सांस लें, रोकें, छोड़ें, रोकें। कुछ पूरे चक्रों तक इसके साथ अपनी सांस मिलाएं।',
+    game3_why1:'लयबद्ध सांस लेना तेज़ दिल की धड़कन को उसी समय शांत करने के सबसे भरोसेमंद तरीकों में से एक है',
+    game3_why2:'लंबी सांस छोड़ना (6 सेकंड) जानबूझकर है — यह वह चरण है जो शांति के प्रभाव से सबसे ज़्यादा जुड़ा है',
+    game3_why3:'कहीं भी काम करता है, आपकी सांस के अलावा कुछ नहीं चाहिए',
+    game3_meta:'~2–5 मिनट · आवाज़ बंद रखकर, नज़र गेंद पर रखते हुए सबसे बेहतर',
+
+    live_badge:'फिज़िकल AI · असली डिवाइस ब्रिज', live_title:'लाइव रीडिंग',
+    live_subtitle:'अपने ब्राउज़र से सीधे असली शारीरिक डिवाइस जोड़ें — ब्लूटूथ हार्ट-रेट स्ट्रैप, ब्लूटूथ ब्लड-प्रेशर कफ, या अपने माइक्रोफ़ोन इनपुट के ज़रिए एक इलेक्ट्रॉनिक स्टेथोस्कोप — और MedSave AI से लाइव, संदर्भ-आधारित जानकारी पाएं।',
+    live_disclaimer_strong:'यह एक चिकित्सा उपकरण नहीं है।',
+    live_disclaimer_text:'यहां दिखाई गई रीडिंग कंज़्यूमर/BLE सेंसर और एक प्रायोगिक माइक्रोफ़ोन-आधारित ध्वनिक अनुमान से आती हैं। ये केवल सामान्य जागरूकता और सीखने के लिए हैं — निदान नहीं, प्रमाणित चिकित्सा माप नहीं। किसी भी आपात स्थिति के लिए, किसी लाइसेंस प्राप्त चिकित्सक या अपने स्थानीय आपातकालीन नंबर से संपर्क करें।',
+    live_connect_eyebrow:'एक डिवाइस जोड़ें', live_connect_heading:'बातचीत में असली हार्डवेयर लाएं',
+    live_connect_sub:'मानक Web Bluetooth और Web Audio ब्राउज़र API का उपयोग करता है — किसी ऐप इंस्टॉल की ज़रूरत नहीं। डेस्कटॉप/Android पर Chrome या Edge में सबसे बेहतर काम करता है।',
+
+    live_hr_title:'ब्लूटूथ हार्ट रेट मॉनिटर',
+    live_hr_desc:'मानक हार्ट रेट सर्विस प्रसारित करने वाला कोई भी BLE डिवाइस (चेस्ट स्ट्रैप, स्मार्टवॉच, रिंग)।',
+    live_hr_label:'हार्ट रेट',
+
+    live_bp_title:'ब्लूटूथ ब्लड प्रेशर कफ',
+    live_bp_desc:'मानक ब्लड प्रेशर सर्विस प्रसारित करने वाला कोई भी BLE कफ — यहां सिंक करने के लिए कफ पर रीडिंग लें।',
+    live_bp_label1:'सिस्टोलिक / डायस्टोलिक', live_bp_label2:'पल्स',
+
+    live_steth_title:'डिजिटल स्टेथोस्कोप (माइक्रोफ़ोन इनपुट)',
+    live_steth_desc:'किसी इलेक्ट्रॉनिक/USB स्टेथोस्कोप का ऑडियो इनपुट (या अपना लैपटॉप माइक) चुनें और लाइव सुनें — MedSave AI असली वेवफ़ॉर्म और एक प्रायोगिक ध्वनिक पल्स अनुमान दिखाता है।',
+    live_steth_label:'ध्वनिक पल्स (प्रायोगिक)', live_steth_default_mic:'डिफ़ॉल्ट माइक्रोफ़ोन',
+    live_steth_start:'सुनना शुरू करें',
+    live_steth_note:'असली इलेक्ट्रॉनिक स्टेथोस्कोप के लिए, पहले उसे USB/3.5mm से जोड़ें, माइक्रोफ़ोन अनुमति दें, फिर ऊपर दिए ड्रॉपडाउन से उसे चुनें। यह अनुमान कम-आवृत्ति ऑडियो एनवलप पीक्स से निकाला जाता है — यह एक सीखने का डेमो है, क्लिनिकल-ग्रेड रीडिंग नहीं।',
+
+    live_status_notconnected:'कनेक्ट नहीं है', live_status_notlistening:'सुन नहीं रहा',
+    live_connect_btn:'डिवाइस कनेक्ट करें',
+
+    live_chat_eyebrow:'लाइव जागरूकता चैट', live_chat_heading:'MedSave AI से पूछें कि आप क्या देख रहे हैं',
+    live_chat_sub:'ऊपर दी गई आपकी लाइव रीडिंग स्वतः ही सहायक के साथ संदर्भ के रूप में साझा हो जाती हैं — नंबर टाइप करने की ज़रूरत नहीं।',
+    live_chat_name:'MedSave AI सहायक',
+    live_vitals_empty:'अभी तक कोई लाइव रीडिंग नहीं — ऊपर एक डिवाइस जोड़ें, और मैं इसे चैट में शामिल करूंगा।',
+    live_chip1:'मेरी हार्ट रेट का क्या मतलब है?', live_chip2:'क्या मेरा ब्लड प्रेशर स्वस्थ सीमा में है?',
+    live_chip3:'माइक-आधारित स्टेथोस्कोप कितना सटीक है?', live_chip4:'दिल को स्वस्थ रखने के सुझाव',
+    live_chat_placeholder:'अपनी लाइव रीडिंग के बारे में पूछें…',
   },
 
   te: {
@@ -250,6 +384,73 @@ const MS_I18N = {
     sos_fa_chest_steps:['వెంటనే 108కు కాల్ చేయండి — ప్రతి నిమిషం ముఖ్యమే.','వారిని సౌకర్యవంతంగా కూర్చోబెట్టండి లేదా పడుకోబెట్టండి.','మెడ, ఛాతీ చుట్టూ బిగుతైన బట్టలను వదులు చేయండి.','సహాయం వచ్చే వరకు వారితో ఉండి, వారిని ప్రశాంతంగా ఉంచండి.'],
     sos_fa_snake_title:'పాము కాటు',
     sos_fa_snake_steps:['వ్యక్తిని కదలకుండా, ప్రశాంతంగా ఉంచండి — కదలిక వల్ల విషం వేగంగా వ్యాపిస్తుంది.','కాటు వేసిన అవయవాన్ని గుండె స్థాయిలో లేదా కింద ఉంచండి.','కాటు దగ్గర ఉన్న ఉంగరాలు, వాచీలు తీసివేయండి.','గాయాన్ని కోయవద్దు, విషాన్ని పీల్చవద్దు, టోర్నికెట్ కట్టవద్దు.','వెంటనే ఆసుపత్రికి వెళ్లి దారిలో 108కు కాల్ చేయండి.'],
+
+    nav_login:'లాగిన్', nav_signup:'సైన్ అప్', nav_back_dashboard:'← డాష్‌బోర్డ్',
+
+    home_badge:'AI-ఆధారిత ప్రజారోగ్య చాట్‌బాట్',
+    home_tagline:'ప్రజారోగ్య అవగాహన మరియు వ్యాధి నివారణ కోసం మీ AI సహచరుడు.',
+    home_footnote:'వ్యాధి అవగాహన కోసం AI-ఆధారిత ప్రజారోగ్య చాట్‌బాట్ · B.Tech చివరి సంవత్సరం ప్రాజెక్ట్',
+
+    games_eyebrow:'మానసిక ఆరోగ్యం',
+    games_title_prefix:'కాస్త', games_title_accent:'విశ్రాంతి తీసుకోండి',
+    games_subtitle:'ఒత్తిడి, చంచలత లేదా వేగంగా పరుగెత్తే ఆలోచనల క్షణాల కోసం మూడు చిన్న, ప్రత్యక్ష వ్యాయామాలు. సైన్-అప్ లేదు, స్కోరింగ్ లేదు — కేవలం కొన్ని ప్రశాంత నిమిషాలు.',
+    games_disclaimer:'ఇవి రిలాక్సేషన్ సాధనాలు, వైద్య చికిత్స కాదు. ఒత్తిడి లేదా ఆందోళన మీ దైనందిన జీవితాన్ని ప్రభావితం చేస్తుంటే, దయచేసి డాక్టర్ లేదా లైసెన్స్ పొందిన మానసిక ఆరోగ్య నిపుణుడిని సంప్రదించండి.',
+
+    game1_tag1:'చంచలత', game1_tag2:'చంచలమైన, పరుగెత్తే ఆలోచనలు',
+    game1_reset:'మళ్లీ ఊదండి', game1_title:'బబుల్ పాప్',
+    game1_desc:'ఒక్కో సెల్‌ను ఒక్కొక్కటిగా పాప్ చేయగల నిజమైన బబుల్ ర్యాప్ షీట్, ప్రతిదానికి దాని స్వంత మృదువైన క్లిక్ శబ్దం ఉంటుంది. ఒత్తిడితో కూడిన రోజులో పేరుకుపోయే చంచలమైన, స్థిరంగా కూర్చోలేని శక్తికి మంచిది.',
+    game1_why1:'చంచలమైన చేతులకు దృష్టి పెట్టడానికి ఒక చిన్న, పునరావృత పనిని ఇస్తుంది',
+    game1_why2:'తాకిడి అనుభూతి యొక్క చిన్న క్షణాలు ఒత్తిడి చక్రాన్ని అడ్డుకోవడానికి ఒక సాధారణ, తక్కువ శ్రమతో కూడిన మార్గం',
+    game1_why3:'ఆడటానికి తప్పు మార్గం లేదు — ఒక బబుల్‌ను గానీ అన్నింటినీ గానీ పాప్ చేయండి',
+    game1_meta:'~1–2 నిమిషాలు · డెస్క్‌టాప్ మరియు టచ్ రెండింటిలో పనిచేస్తుంది',
+
+    game2_hint:'మీ వేలు లేదా మౌస్‌ను ఇసుకలో లాగండి', game2_reset:'ఇసుకను నున్నగా చేయండి',
+    game2_tag1:'ఇంద్రియ అధిభారం', game2_tag2:'గ్రౌండింగ్', game2_title:'కైనెటిక్ శాండ్',
+    game2_desc:'మృదువైన, నీడ కమ్మిన ఇసుక పలకపై లాగి, అది గీతను ఎలా పట్టుకుంటుందో చూడండి — ఇది త్వరిత పరిష్కారం కాదు, నెమ్మదైన, గ్రౌండింగ్ చేసే కదలిక. ఎప్పుడైనా దాన్ని సమతలంగా చేసి మళ్లీ మొదలుపెట్టండి.',
+    game2_why1:'నెమ్మదైన, ఉద్దేశపూర్వక కదలిక దృష్టిని వర్తమాన క్షణానికి తిరిగి తీసుకురావడానికి సహాయపడుతుంది',
+    game2_why2:'ఇలాంటి గ్రౌండింగ్ వ్యాయామాలు ఆందోళన క్షణాల్లో శ్వాస పద్ధతులతో పాటు విస్తృతంగా ఉపయోగించబడతాయి',
+    game2_why3:'గెలవడానికి, ఓడిపోవడానికి ఏమీ లేదు — ఇక్కడ "పూర్తయింది" అనే స్థితి లేదు',
+    game2_meta:'~2–3 నిమిషాలు · మౌస్ లేదా టచ్‌స్క్రీన్‌తో ఉత్తమం',
+
+    game3_ready:'సిద్ధమైనప్పుడు ప్రారంభించు నొక్కండి', game3_start:'శ్వాస ప్రారంభించండి',
+    game3_tag1:'తీవ్ర ఒత్తిడి / భయాందోళన', game3_tag2:'వేగవంతమైన హృదయ స్పందన', game3_title:'గైడెడ్ బ్రీతింగ్',
+    game3_desc:'మెల్లగా వెలుగుతున్న ఒక గోళం స్థిరమైన 4–4–6–2 లయలో విస్తరించి కుంచించుకుపోతుంది: శ్వాస తీసుకోండి, ఆపండి, వదలండి, ఆపండి. కొన్ని పూర్తి చక్రాల పాటు మీ శ్వాసతో దాన్ని అనుసరించండి.',
+    game3_why1:'లయబద్ధమైన శ్వాస ఆ క్షణంలో వేగవంతమైన హృదయ స్పందనను శాంతపరచడానికి బాగా నిరూపితమైన మార్గాల్లో ఒకటి',
+    game3_why2:'పొడవైన ఉచ్ఛ్వాసం (6సె) ఉద్దేశపూర్వకమైనది — శాంతపరిచే ప్రభావంతో అత్యధికంగా ముడిపడిన దశ ఇదే',
+    game3_why3:'ఎక్కడైనా పనిచేస్తుంది, మీ శ్వాస తప్ప మరేమీ అవసరం లేదు',
+    game3_meta:'~2–5 నిమిషాలు · శబ్దం ఆఫ్‌లో ఉంచి, గోళంపై దృష్టి పెట్టి చూస్తే ఉత్తమం',
+
+    live_badge:'ఫిజికల్ AI · నిజమైన పరికర వంతెన', live_title:'లైవ్ రీడింగ్',
+    live_subtitle:'మీ బ్రౌజర్ నుండి నేరుగా నిజమైన శారీరక పరికరాలను కనెక్ట్ చేయండి — బ్లూటూత్ హార్ట్-రేట్ స్ట్రాప్, బ్లూటూత్ బ్లడ్-ప్రెజర్ కఫ్, లేదా మీ మైక్రోఫోన్ ఇన్‌పుట్ ద్వారా ఎలక్ట్రానిక్ స్టెతస్కోప్ — మరియు MedSave AI నుండి లైవ్, సందర్భోచిత అవగాహన పొందండి.',
+    live_disclaimer_strong:'ఇది వైద్య పరికరం కాదు.',
+    live_disclaimer_text:'ఇక్కడ చూపిన రీడింగ్‌లు కన్స్యూమర్/BLE సెన్సార్లు మరియు ప్రయోగాత్మక మైక్రోఫోన్-ఆధారిత అకౌస్టిక్ అంచనా నుండి వస్తాయి. ఇవి కేవలం సాధారణ అవగాహన మరియు నేర్చుకోవడం కోసమే — ఇది నిర్ధారణ కాదు, ధృవీకరించబడిన వైద్య కొలత కాదు. అత్యవసర పరిస్థితుల్లో, లైసెన్స్ పొందిన వైద్యుడిని లేదా మీ స్థానిక అత్యవసర నంబర్‌ను సంప్రదించండి.',
+    live_connect_eyebrow:'ఒక పరికరాన్ని కనెక్ట్ చేయండి', live_connect_heading:'సంభాషణలోకి నిజమైన హార్డ్‌వేర్‌ను తీసుకురండి',
+    live_connect_sub:'ప్రామాణిక Web Bluetooth మరియు Web Audio బ్రౌజర్ APIలను ఉపయోగిస్తుంది — యాప్ ఇన్‌స్టాల్ అవసరం లేదు. డెస్క్‌టాప్ / Androidలో Chrome లేదా Edgeలో ఉత్తమంగా పనిచేస్తుంది.',
+
+    live_hr_title:'బ్లూటూత్ హార్ట్ రేట్ మానిటర్',
+    live_hr_desc:'ప్రామాణిక హార్ట్ రేట్ సర్వీస్‌ను ప్రసారం చేసే ఏదైనా BLE పరికరం (చెస్ట్ స్ట్రాప్‌లు, స్మార్ట్‌వాచ్‌లు, రింగులు).',
+    live_hr_label:'హార్ట్ రేట్',
+
+    live_bp_title:'బ్లూటూత్ బ్లడ్ ప్రెజర్ కఫ్',
+    live_bp_desc:'ప్రామాణిక బ్లడ్ ప్రెజర్ సర్వీస్‌ను ప్రసారం చేసే ఏదైనా BLE కఫ్ — దీన్ని సింక్ చేయడానికి కఫ్‌పై రీడింగ్ తీసుకోండి.',
+    live_bp_label1:'సిస్టోలిక్ / డయాస్టోలిక్', live_bp_label2:'పల్స్',
+
+    live_steth_title:'డిజిటల్ స్టెతస్కోప్ (మైక్రోఫోన్ ఇన్‌పుట్)',
+    live_steth_desc:'ఎలక్ట్రానిక్/USB స్టెతస్కోప్ ఆడియో ఇన్‌పుట్‌ను (లేదా మీ ల్యాప్‌టాప్ మైక్‌ను) ఎంచుకుని లైవ్‌గా వినండి — MedSave AI రా వేవ్‌ఫారమ్ మరియు ప్రయోగాత్మక అకౌస్టిక్ పల్స్ అంచనాను చూపిస్తుంది.',
+    live_steth_label:'అకౌస్టిక్ పల్స్ (ప్రయోగాత్మకం)', live_steth_default_mic:'డిఫాల్ట్ మైక్రోఫోన్',
+    live_steth_start:'వినడం ప్రారంభించండి',
+    live_steth_note:'నిజమైన ఎలక్ట్రానిక్ స్టెతస్కోప్ కోసం, ముందుగా దాన్ని USB/3.5mm ద్వారా ప్లగ్ చేసి, మైక్రోఫోన్ అనుమతి ఇచ్చి, తర్వాత పైన ఉన్న డ్రాప్‌డౌన్ నుండి దాన్ని ఎంచుకోండి. ఈ అంచనా తక్కువ-ఫ్రీక్వెన్సీ ఆడియో ఎన్వలప్ పీక్‌ల నుండి తీసుకోబడింది — ఇది నేర్చుకునే డెమో, క్లినికల్-గ్రేడ్ రీడింగ్ కాదు.',
+
+    live_status_notconnected:'కనెక్ట్ కాలేదు', live_status_notlistening:'వినడం లేదు',
+    live_connect_btn:'పరికరాన్ని కనెక్ట్ చేయండి',
+
+    live_chat_eyebrow:'లైవ్ అవేర్‌నెస్ చాట్', live_chat_heading:'మీరు చూస్తున్నదాని గురించి MedSave AIని అడగండి',
+    live_chat_sub:'పైన ఉన్న మీ లైవ్ రీడింగ్‌లు స్వయంచాలకంగా సందర్భంగా అసిస్టెంట్‌తో పంచుకోబడతాయి — నంబర్లు టైప్ చేయాల్సిన అవసరం లేదు.',
+    live_chat_name:'MedSave AI అసిస్టెంట్',
+    live_vitals_empty:'ఇంకా లైవ్ రీడింగ్‌లు లేవు — పైన ఒక పరికరాన్ని కనెక్ట్ చేయండి, నేను దాన్ని చాట్‌లో పరిగణలోకి తీసుకుంటాను.',
+    live_chip1:'నా హార్ట్ రేట్ అర్థం ఏమిటి?', live_chip2:'నా బ్లడ్ ప్రెజర్ ఆరోగ్యకరమైన పరిధిలో ఉందా?',
+    live_chip3:'మైక్-ఆధారిత స్టెతస్కోప్ ఎంత ఖచ్చితమైనది?', live_chip4:'హృదయాన్ని ఆరోగ్యంగా ఉంచుకోవడానికి చిట్కాలు',
+    live_chat_placeholder:'మీ లైవ్ రీడింగ్ గురించి అడగండి…',
   }
 };
 
