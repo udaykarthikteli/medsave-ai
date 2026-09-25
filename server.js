@@ -30,6 +30,62 @@ if (GEMINI_API_KEY && /your_gemini_api_key_here|your_key_here/i.test(GEMINI_API_
 }
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
+/* --------------------------------------------------------------------------
+   Gemini's free-tier models occasionally return 503 "high demand" (or,
+   less often, 429 rate-limit) errors that clear up within seconds. Rather
+   than failing the user's message on the first hiccup, retry a couple of
+   times with a short exponential backoff before giving up for real.
+   -------------------------------------------------------------------------- */
+const RETRYABLE_STATUSES = new Set([503, 429]);
+const MAX_GEMINI_ATTEMPTS = 3; // 1 initial try + 2 retries
+const BASE_RETRY_DELAY_MS = 700;
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function callGeminiWithRetry(requestBody) {
+  let lastResponse = null;
+  let lastErrText = '';
+
+  for (let attempt = 1; attempt <= MAX_GEMINI_ATTEMPTS; attempt++) {
+    let response;
+    try {
+      response = await fetch(GEMINI_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': GEMINI_API_KEY
+        },
+        body: JSON.stringify(requestBody)
+      });
+    } catch (networkErr) {
+      // Network-level failure (DNS hiccup, connection reset) — also worth a retry.
+      lastErrText = String(networkErr && networkErr.message || networkErr);
+      if (attempt < MAX_GEMINI_ATTEMPTS) {
+        const delay = BASE_RETRY_DELAY_MS * 2 ** (attempt - 1) + Math.random() * 250;
+        console.warn(`Gemini network error (attempt ${attempt}/${MAX_GEMINI_ATTEMPTS}), retrying in ${Math.round(delay)}ms:`, lastErrText);
+        await sleep(delay);
+        continue;
+      }
+      throw networkErr;
+    }
+
+    if (response.ok) return { response, attempts: attempt };
+
+    lastResponse = response;
+    if (!RETRYABLE_STATUSES.has(response.status) || attempt === MAX_GEMINI_ATTEMPTS) {
+      return { response, attempts: attempt };
+    }
+
+    const delay = BASE_RETRY_DELAY_MS * 2 ** (attempt - 1) + Math.random() * 250;
+    console.warn(`Gemini returned ${response.status} (attempt ${attempt}/${MAX_GEMINI_ATTEMPTS}), retrying in ${Math.round(delay)}ms…`);
+    await sleep(delay);
+  }
+
+  return { response: lastResponse, attempts: MAX_GEMINI_ATTEMPTS };
+}
+
 const app = express();
 // Render (and most hosts) sit behind a reverse proxy that sets
 // X-Forwarded-For. Without this, express-rate-limit can't safely
@@ -131,36 +187,32 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
 
     contents.push({ role: 'user', parts: [{ text: userText }] });
 
-    const geminiResponse = await fetch(GEMINI_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': GEMINI_API_KEY
+    const geminiRequestBody = {
+      system_instruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+      contents,
+      generationConfig: {
+        temperature: 0.6,
+        maxOutputTokens: 500
       },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-        contents,
-        generationConfig: {
-          temperature: 0.6,
-          maxOutputTokens: 500
-        },
-        safetySettings: [
-          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
-          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
-          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_ONLY_HIGH' },
-          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' }
-        ]
-      })
-    });
+      safetySettings: [
+        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
+        { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
+        { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_ONLY_HIGH' },
+        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' }
+      ]
+    };
+
+    const { response: geminiResponse, attempts } = await callGeminiWithRetry(geminiRequestBody);
 
     if (!geminiResponse.ok) {
       const errText = await geminiResponse.text().catch(() => '');
-      console.error('Gemini API error:', geminiResponse.status, errText);
+      console.error(`Gemini API error (after ${attempts} attempt${attempts === 1 ? '' : 's'}):`, geminiResponse.status, errText);
 
       let hint = 'The AI service could not be reached right now. Please try again shortly.';
       if (geminiResponse.status === 400) hint = 'Gemini rejected the request (400) — often an invalid GEMINI_MODEL name in .env.';
       else if (geminiResponse.status === 401 || geminiResponse.status === 403) hint = 'Gemini rejected the API key (401/403) — the key in .env is invalid, disabled, or missing API access. Get a fresh key from https://aistudio.google.com/apikey.';
-      else if (geminiResponse.status === 429) hint = 'Gemini rate/quota limit hit (429) — wait a bit or check quota in Google AI Studio.';
+      else if (geminiResponse.status === 429) hint = "Gemini's rate/quota limit was hit, even after retrying — please wait a minute, or check your quota in Google AI Studio.";
+      else if (geminiResponse.status === 503) hint = "Gemini's model is still experiencing unusually high demand after a few retries — this is on Google's end and usually clears within a minute or two. Please try again shortly.";
 
       return res.status(502).json({
         error: 'upstream_error',
