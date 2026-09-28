@@ -1,0 +1,32 @@
+.bmi-wrap{ max-width:820px; margin:0 auto 60px; padding:0 20px; position:relative; z-index:2; }
+.bmi-card{ padding:28px clamp(18px,4vw,36px); }
+
+.bmi-form{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:14px 18px;
+  align-items:end;
+}
+.bmi-form .field{ margin-bottom:0; }
+.bmi-form select{
+  width:100%; padding:12px 14px;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--glass-border);
+  background:#fff; font:inherit; color:var(--ink);
+}
+
+.bmi-results{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:14px; margin-top:22px;
+}
+.bmi-stat{
+  background:var(--gold-50);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-md);
+  padding:16px;
+}
+.bmi-stat b{ display:block; font:700 1.5rem var(--font-display); color:var(--gold-600); }
+.bmi-stat span{ font-size:.82rem; color:var(--ink-soft); }
+
+.bmi-note{ font-size:.78rem; color:var(--ink-faint); margin:16px 0 0; line-height:1.5; }
