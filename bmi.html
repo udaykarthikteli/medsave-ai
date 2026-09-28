@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI & Water Calculator — MedSave AI</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/bmi.css">
+</head>
+<body>
+<div class="bg-canvas" data-icons="heart,pill,shield"></div>
+
+<nav class="navbar" style="position:relative; z-index:5;">
+  <a href="index.html" class="brand"><div class="logo-mark"></div><span class="brand-name">MedSave AI</span></a>
+  <div class="nav-actions">
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+  </div>
+</nav>
+
+<header class="dash-hero">
+  <h1>BMI &amp; <span class="accent">Water</span> Calculator</h1>
+  <p>Get your BMI, healthy weight range, daily calories and water target. Nothing is uploaded — it all runs in your browser.</p>
+</header>
+
+<div class="bmi-wrap">
+  <section class="card glass bmi-card">
+    <div class="bmi-form">
+      <div class="field"><label for="cAge">Age (years)</label>
+        <input type="number" id="cAge" min="1" max="120" placeholder="25"></div>
+
+      <div class="field"><label for="cSex">Sex</label>
+        <select id="cSex"><option value="m">Male</option><option value="f">Female</option></select></div>
+
+      <div class="field"><label for="cH">Height (cm)</label>
+        <input type="number" id="cH" min="50" max="250" placeholder="170"></div>
+
+      <div class="field"><label for="cW">Weight (kg)</label>
+        <input type="number" id="cW" min="10" max="300" placeholder="65"></div>
+
+      <div class="field"><label for="cAct">Activity level</label>
+        <select id="cAct">
+          <option value="1.2">Mostly sitting</option>
+          <option value="1.375">Light exercise 1–3 days/week</option>
+          <option value="1.55">Moderate exercise 3–5 days/week</option>
+          <option value="1.725">Hard exercise 6–7 days/week</option>
+        </select></div>
+
+      <button class="btn btn-primary" id="cGo" type="button">Calculate</button>
+    </div>
+
+    <div class="bmi-results" id="cOut" hidden></div>
+
+    <p class="bmi-note">
+      Estimates only, not a diagnosis. BMI doesn't distinguish muscle from fat. For South Asians,
+      health risk can begin at lower BMI values (from about 23). Talk to a doctor or dietitian
+      for personal targets.
+    </p>
+  </section>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/background.js"></script>
+<script src="js/bmi.js"></script>
+<script>document.querySelectorAll('.logo-mark').forEach(el => el.innerHTML = msIcon('logo'));</script>
+</body>
+</html>
