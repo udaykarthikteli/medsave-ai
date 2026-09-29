@@ -48,7 +48,31 @@
       <button class="btn btn-primary" id="cGo" type="button">Calculate</button>
     </div>
 
-    <div class="bmi-results" id="cOut" hidden></div>
+    <div class="bmi-content">
+      <div class="bmi-results" id="cOut" hidden></div>
+
+      <div class="bmi-scale-v" id="cScale" hidden>
+        <div class="bmi-scale-v-track" id="cTrack">
+          <div class="scale-row seg-obese" data-cat="obese">
+            <span class="scale-bar"><span class="scale-glow"></span></span>
+            <span class="scale-label">🔴 Obese<br><b>30 and above</b></span>
+          </div>
+          <div class="scale-row seg-over" data-cat="over">
+            <span class="scale-bar"><span class="scale-glow"></span></span>
+            <span class="scale-label">🟠 Overweight<br><b>25 – 29.9</b></span>
+          </div>
+          <div class="scale-row seg-healthy" data-cat="healthy">
+            <span class="scale-bar"><span class="scale-glow"></span></span>
+            <span class="scale-label">💚 Healthy<br><b>18.5 – 24.9</b></span>
+          </div>
+          <div class="scale-row seg-under" data-cat="under">
+            <span class="scale-bar"><span class="scale-glow"></span></span>
+            <span class="scale-label">💜 Underweight<br><b>Below 18.5</b></span>
+          </div>
+          <div class="bmi-scale-v-marker" id="cMarker"></div>
+        </div>
+      </div>
+    </div>
 
     <p class="bmi-note">
       Estimates only, not a diagnosis. BMI doesn't distinguish muscle from fat. For South Asians,
@@ -61,6 +85,6 @@
 <script src="js/icons.js"></script>
 <script src="js/background.js"></script>
 <script src="js/bmi.js"></script>
-<script>document.querySelectorAll('.logo-mark').forEach(el => el.innerHTML = msIcon('logo'));</script>
+<script>if (typeof msIcon === 'function') { document.querySelectorAll('.logo-mark').forEach(el => el.innerHTML = msIcon('logo')); }</script>
 </body>
 </html>
