@@ -48,5 +48,26 @@
     out.innerHTML = cards
       .map((c) => `<div class="bmi-stat"><b>${c[0]}</b><span>${c[1]}</span></div>`)
       .join('');
+
+    // Position the marker on the vertical colour scale (scale spans BMI 15–35)
+    const scale = $('cScale');
+    scale.hidden = false;
+    const pct = Math.min(100, Math.max(0, ((bmi - 15) / 20) * 100)); // 0 = bottom, 100 = top
+    $('cMarker').style.top = (100 - pct) + '%';
+
+    // Highlight the matching row and print the exact BMI into its label
+    const cat = bmi < 18.5 ? 'under' : bmi < 25 ? 'healthy' : bmi < 30 ? 'over' : 'obese';
+    document.querySelectorAll('.scale-row').forEach((row) => {
+      const isActive = row.dataset.cat === cat;
+      row.classList.toggle('active', isActive);
+      const you = row.querySelector('.scale-you');
+      if (you) you.remove();
+      if (isActive) {
+        const tag = document.createElement('span');
+        tag.className = 'scale-you';
+        tag.textContent = '👉 Your BMI: ' + bmi.toFixed(1);    
+        row.querySelector('.scale-label').appendChild(tag);
+      }
+    });
   });
 })();
